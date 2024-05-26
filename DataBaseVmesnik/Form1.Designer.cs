@@ -8,7 +8,6 @@
         private System.Windows.Forms.TextBox txtYearTo;
         private System.Windows.Forms.ComboBox cmbCategory;
         private System.Windows.Forms.ListBox lstResults;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label lblYearFrom;
         private System.Windows.Forms.Label lblYearTo;
         private System.Windows.Forms.Label lblCategory;
@@ -38,7 +37,6 @@
             this.txtYearTo = new System.Windows.Forms.TextBox();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.lstResults = new System.Windows.Forms.ListBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.lblYearFrom = new System.Windows.Forms.Label();
             this.lblYearTo = new System.Windows.Forms.Label();
             this.lblCategory = new System.Windows.Forms.Label();
@@ -80,7 +78,6 @@
             this.inputTableLayoutPanel.Controls.Add(this.txtYearTo, 1, 1);
             this.inputTableLayoutPanel.Controls.Add(this.lblCategory, 0, 2);
             this.inputTableLayoutPanel.Controls.Add(this.cmbCategory, 1, 2);
-            this.inputTableLayoutPanel.Controls.Add(this.btnSearch, 1, 3);
             this.inputTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.inputTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.inputTableLayoutPanel.Name = "inputTableLayoutPanel";
@@ -129,6 +126,7 @@
             this.txtYearFrom.Name = "txtYearFrom";
             this.txtYearFrom.Size = new System.Drawing.Size(274, 22);
             this.txtYearFrom.TabIndex = 0;
+            this.txtYearFrom.TextChanged += new System.EventHandler(this.txtYearFrom_TextChanged);
 
             // 
             // lblYearTo
@@ -150,6 +148,7 @@
             this.txtYearTo.Name = "txtYearTo";
             this.txtYearTo.Size = new System.Drawing.Size(274, 22);
             this.txtYearTo.TabIndex = 1;
+            this.txtYearTo.TextChanged += new System.EventHandler(this.txtYearTo_TextChanged);
 
             // 
             // lblCategory
@@ -173,18 +172,7 @@
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Size = new System.Drawing.Size(274, 24);
             this.cmbCategory.TabIndex = 2;
-
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.Location = new System.Drawing.Point(123, 118);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(274, 23);
-            this.btnSearch.TabIndex = 4;
-            this.btnSearch.Text = "Poišči";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.cmbCategory.SelectedIndexChanged += new System.EventHandler(this.cmbCategory_SelectedIndexChanged);
 
             // 
             // lstResults

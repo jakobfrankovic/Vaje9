@@ -1,30 +1,35 @@
 ﻿using System.Collections.Generic;
 
-namespace DataBaseVmesnik
+public class SearchParams
 {
-    public class SearchParams
+    public string YearFrom { get; set; }
+    public string YearTo { get; set; }
+    public string Category { get; set; }
+
+    // Metoda za preverjanje veljavnosti parametrov
+    public bool AreParamsValid()
     {
-        // Lastnosti za iskanje
-        public string YearFrom { get; set; }
-        public string YearTo { get; set; }
-        public string Category { get; set; }
-
-        // Funkcija za preverjanje, ali so vnesene letnice veljavne
-        public bool AreYearsValid()
+        if (string.IsNullOrEmpty(YearFrom) || string.IsNullOrEmpty(YearTo) || string.IsNullOrEmpty(Category))
         {
-            return int.TryParse(YearFrom, out _) && int.TryParse(YearTo, out _);
+            return false;
         }
 
-        // Funkcija za preverjanje, ali so vneseni podatki veljavni
-        public bool AreParamsValid()
+        if (!int.TryParse(YearFrom, out _) || !int.TryParse(YearTo, out _))
         {
-            return AreYearsValid() && !string.IsNullOrWhiteSpace(Category);
+            return false;
         }
 
-        // Funkcija za pridobitev angleške kategorije
-        public string GetEnglishCategory(Dictionary<string, string> categoryMap)
+        return true;
+    }
+
+    // Metoda za pridobivanje angleškega imena kategorije
+    public string GetEnglishCategory(Dictionary<string, string> categoryMap)
+    {
+        if (categoryMap.TryGetValue(Category, out string englishCategory))
         {
-            return categoryMap.ContainsKey(Category) ? categoryMap[Category] : null;
+            return englishCategory;
         }
+
+        return null;
     }
 }

@@ -28,11 +28,32 @@ namespace DataBaseVmesnik
                 { "Ekonomija", "Economics" }
             };
 
+            // Nastavi vir podatkov za ComboBox z imeni kategorij
             cmbCategory.DataSource = new List<string>(categoryMap.Keys);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        // Dogodek za spremembo besedila v txtYearFrom
+        private void txtYearFrom_TextChanged(object sender, EventArgs e)
         {
+            UpdateResults();
+        }
+
+        // Dogodek za spremembo besedila v txtYearTo
+        private void txtYearTo_TextChanged(object sender, EventArgs e)
+        {
+            UpdateResults();
+        }
+
+        // Dogodek za spremembo izbranega elementa v cmbCategory
+        private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateResults();
+        }
+
+        // Metoda za posodobitev rezultatov
+        private void UpdateResults()
+        {
+            // Nastavi iskalne parametre
             searchParams = new SearchParams
             {
                 YearFrom = txtYearFrom.Text,
@@ -40,12 +61,14 @@ namespace DataBaseVmesnik
                 Category = cmbCategory.SelectedItem?.ToString()
             };
 
+            // Preveri, ali so parametri veljavni
             if (searchParams.AreParamsValid())
             {
                 int yearFrom = int.Parse(searchParams.YearFrom);
                 int yearTo = int.Parse(searchParams.YearTo);
                 string category = searchParams.GetEnglishCategory(categoryMap);
 
+                // Če je kategorija veljavna, pridobi rezultate in jih prikaži
                 if (category != null)
                 {
                     try
@@ -64,15 +87,16 @@ namespace DataBaseVmesnik
                 }
                 else
                 {
-                    MessageBox.Show("Izbrana kategorija ni veljavna.");
+                    lstResults.Items.Clear();
                 }
             }
             else
             {
-                MessageBox.Show("Prosim, vnesite pravilne letnice in izberite kategorijo.");
+                lstResults.Items.Clear();
             }
         }
 
+        // Metoda za pridobivanje Nobelovih nagrad iz baze podatkov
         private List<string> GetNobelPrizes(int yearFrom, int yearTo, string category)
         {
             List<string> results = new List<string>();
@@ -106,6 +130,41 @@ namespace DataBaseVmesnik
             }
 
             return results;
+        }
+    }
+
+    // Razred za iskalne parametre
+    public class SearchParams
+    {
+        public string YearFrom { get; set; }
+        public string YearTo { get; set; }
+        public string Category { get; set; }
+
+        // Metoda za preverjanje veljavnosti parametrov
+        public bool AreParamsValid()
+        {
+            if (string.IsNullOrEmpty(YearFrom) || string.IsNullOrEmpty(YearTo) || string.IsNullOrEmpty(Category))
+            {
+                return false;
+            }
+
+            if (!int.TryParse(YearFrom, out _) || !int.TryParse(YearTo, out _))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        // Metoda za pridobivanje angleškega imena kategorije
+        public string GetEnglishCategory(Dictionary<string, string> categoryMap)
+        {
+            if (categoryMap.TryGetValue(Category, out string englishCategory))
+            {
+                return englishCategory;
+            }
+
+            return null;
         }
     }
 }
